@@ -5,10 +5,10 @@ export const siteConfig = {
   // Official external member registration form (public respondent link, not the /edit link).
   memberFormUrl: 'https://docs.google.com/forms/d/11B6ezqN2LUOunF0eiQLWLV_xmjLaIosZWlricJG6Urs/viewform',
   contact: {
-    // PLACEHOLDERS: to be provided by the organization.
-    email: '',
-    phone: '',
-    address: '',
+    email: 'baitulhasanah2022@gmail.com',
+    phone: '01834-770167',
+    address: 'কক্সবাজার পৌরসভা',
+    addressEn: "Cox's Bazar Municipality, Bangladesh",
   },
   social: {
     // PLACEHOLDERS: leave empty to hide the icon.

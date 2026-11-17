@@ -5,27 +5,50 @@ import { useSeo } from '../lib/useSeo.js';
 import { siteConfig } from '../lib/siteConfig.js';
 
 export default function Contact() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const c = t.contact;
   useSeo(c.title, c.sub);
   const { contact, social } = siteConfig;
+  const address = lang === 'en' && contact.addressEn ? contact.addressEn : contact.address;
   const na = <span className="text-slate-400">{t.common.notProvided}</span>;
+
+  const contactItems = [
+    {
+      icon: Mail,
+      label: c.emailLabel,
+      content: contact.email ? (
+        <a href={`mailto:${contact.email}`} className="font-medium text-emerald-900 hover:text-emerald-700 hover:underline">
+          {contact.email}
+        </a>
+      ) : na,
+    },
+    {
+      icon: Phone,
+      label: c.phoneLabel,
+      content: contact.phone ? (
+        <a href={`tel:${contact.phone.replace(/[^0-9+]/g, '')}`} className="font-medium text-emerald-900 hover:text-emerald-700 hover:underline">
+          {contact.phone}
+        </a>
+      ) : na,
+    },
+    {
+      icon: MapPin,
+      label: c.addressLabel,
+      content: address ? <span className="font-medium text-slate-800">{address}</span> : na,
+    },
+  ];
 
   return (
     <>
       <PageHero title={c.title} sub={c.sub} />
       <div className="container-page grid gap-8 py-14 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-2">
-          {[
-            [Mail, c.emailLabel, contact.email],
-            [Phone, c.phoneLabel, contact.phone],
-            [MapPin, c.addressLabel, contact.address],
-          ].map(([Icon, label, value]) => (
+          {contactItems.map(({ icon: Icon, label, content }) => (
             <div key={label} className="card flex items-center gap-4 !p-4">
               <span className="rounded-xl bg-emerald-50 p-2.5 text-emerald-800"><Icon size={20} /></span>
               <div>
                 <p className="text-xs text-slate-500">{label}</p>
-                <p className="font-medium">{value || na}</p>
+                <div className="mt-0.5">{content}</div>
               </div>
             </div>
           ))}

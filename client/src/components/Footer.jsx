@@ -5,8 +5,9 @@ import { useLang } from '../i18n/LanguageContext.jsx';
 import { siteConfig } from '../lib/siteConfig.js';
 
 export default function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { contact, social } = siteConfig;
+  const address = lang === 'en' && contact.addressEn ? contact.addressEn : contact.address;
   const quick = [
     ['/about', 'about'],
     ['/activities', 'activities'],
@@ -47,10 +48,27 @@ export default function Footer() {
 
         <div>
           <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gold-300">{t.footer.contact}</h3>
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2"><Mail size={16} /> {contact.email || na}</li>
-            <li className="flex items-center gap-2"><Phone size={16} /> {contact.phone || na}</li>
-            <li className="flex items-center gap-2"><MapPin size={16} /> {contact.address || na}</li>
+          <ul className="space-y-2.5 text-sm">
+            <li className="flex items-center gap-2">
+              <Mail size={16} className="shrink-0 text-emerald-400" />
+              {contact.email ? (
+                <a href={`mailto:${contact.email}`} className="text-emerald-100/90 hover:text-white hover:underline">
+                  {contact.email}
+                </a>
+              ) : na}
+            </li>
+            <li className="flex items-center gap-2">
+              <Phone size={16} className="shrink-0 text-emerald-400" />
+              {contact.phone ? (
+                <a href={`tel:${contact.phone.replace(/[^0-9+]/g, '')}`} className="text-emerald-100/90 hover:text-white hover:underline">
+                  {contact.phone}
+                </a>
+              ) : na}
+            </li>
+            <li className="flex items-center gap-2">
+              <MapPin size={16} className="shrink-0 text-emerald-400" />
+              <span className="text-emerald-100/90">{address || na}</span>
+            </li>
           </ul>
           <div className="mt-4 flex gap-3">
             {social.facebook && (
